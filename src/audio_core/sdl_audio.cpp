@@ -93,6 +93,10 @@ int SDLAudio::AudioOutOpen(int type, u32 samples_num, u32 freq,
 
 s32 SDLAudio::AudioOutOutput(s32 handle, const void* ptr) {
     std::shared_lock lock{m_mutex};
+
+    if (handle - 1 <= 0) {
+        return ORBIS_AUDIO_OUT_ERROR_INVALID_PORT;
+    }
     auto& port = portsOut[handle - 1];
     if (!port.isOpen) {
         return ORBIS_AUDIO_OUT_ERROR_INVALID_PORT;
@@ -114,6 +118,11 @@ s32 SDLAudio::AudioOutOutput(s32 handle, const void* ptr) {
 bool SDLAudio::AudioOutSetVolume(s32 handle, s32 bitflag, s32* volume) {
     using Libraries::AudioOut::OrbisAudioOutParamFormat;
     std::shared_lock lock{m_mutex};
+    
+    if (handle - 1 <= 0)
+    {
+        return ORBIS_AUDIO_OUT_ERROR_INVALID_PORT;
+    }
     auto& port = portsOut[handle - 1];
     if (!port.isOpen) {
         return ORBIS_AUDIO_OUT_ERROR_INVALID_PORT;

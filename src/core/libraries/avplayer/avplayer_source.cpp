@@ -444,35 +444,39 @@ void AvPlayerSource::DemuxerThread(std::stop_token stop) {
             continue;
         }
         AVPacketPtr up_packet(av_packet_alloc(), &ReleaseAVPacket);
-        const auto res = av_read_frame(m_avformat_context.get(), up_packet.get());
-        if (res < 0) {
-            if (res == AVERROR_EOF) {
-                if (m_is_looping) {
-                    LOG_INFO(Lib_AvPlayer, "EOF reached in demuxer. Looping the source...");
-                    avio_seek(m_avformat_context->pb, 0, SEEK_SET);
-                    if (m_video_stream_index.has_value()) {
-                        const auto index = m_video_stream_index.value();
-                        const auto stream = m_avformat_context->streams[index];
-                        avformat_seek_file(m_avformat_context.get(), index, 0, 0, stream->duration,
-                                           0);
+
+        if (up_packet.get()->pos != -1)
+        {
+            const auto res = av_read_frame(m_avformat_context.get(), up_packet.get());
+            if (res < 0) {
+                if (res == AVERROR_EOF) {
+                    if (m_is_looping) {
+                        LOG_INFO(Lib_AvPlayer, "EOF reached in demuxer. Looping the source...");
+                        avio_seek(m_avformat_context->pb, 0, SEEK_SET);
+                        if (m_video_stream_index.has_value()) {
+                            const auto index = m_video_stream_index.value();
+                            const auto stream = m_avformat_context->streams[index];
+                            avformat_seek_file(m_avformat_context.get(), index, 0, 0,
+                                               stream->duration, 0);
+                        }
+                        if (m_audio_stream_index.has_value()) {
+                            const auto index = m_audio_stream_index.value();
+                            const auto stream = m_avformat_context->streams[index];
+                            avformat_seek_file(m_avformat_context.get(), index, 0, 0,
+                                               stream->duration, 0);
+                        }
+                        continue;
+                    } else {
+                        LOG_INFO(Lib_AvPlayer, "EOF reached in demuxer. Exiting.");
+                        break;
                     }
-                    if (m_audio_stream_index.has_value()) {
-                        const auto index = m_audio_stream_index.value();
-                        const auto stream = m_avformat_context->streams[index];
-                        avformat_seek_file(m_avformat_context.get(), index, 0, 0, stream->duration,
-                                           0);
-                    }
-                    continue;
                 } else {
-                    LOG_INFO(Lib_AvPlayer, "EOF reached in demuxer. Exiting.");
-                    break;
+                    LOG_ERROR(Lib_AvPlayer, "Could not read AV frame: error = {}", res);
+                    m_state.OnError();
+                    return;
                 }
-            } else {
-                LOG_ERROR(Lib_AvPlayer, "Could not read AV frame: error = {}", res);
-                m_state.OnError();
-                return;
+                break;
             }
-            break;
         }
         if (up_packet->stream_index == m_video_stream_index) {
             m_video_packets.Push(std::move(up_packet));

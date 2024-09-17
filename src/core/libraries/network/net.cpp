@@ -564,8 +564,8 @@ int PS4_SYSV_ABI sceNetEpollWait() {
 }
 
 int PS4_SYSV_ABI sceNetErrnoLoc() {
-    LOG_ERROR(Lib_Net, "(STUBBED) called");
-    return ORBIS_OK;
+   // LOG_ERROR(Lib_Net, "(STUBBED) called");
+    return SCE_KERNEL_ERROR_ENETUNREACH;
 }
 
 int PS4_SYSV_ABI sceNetEtherNtostr() {

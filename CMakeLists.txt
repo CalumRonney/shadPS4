@@ -232,11 +232,18 @@ set(SYSTEM_LIBS src/core/libraries/system/commondialog.cpp
                 src/core/libraries/system/msgdialog_ui.cpp
                 src/core/libraries/system/posix.cpp
                 src/core/libraries/system/posix.h
-                src/core/libraries/save_data/error_codes.h
+                src/core/libraries/save_data/save_backup.cpp
+                src/core/libraries/save_data/save_backup.h
+                src/core/libraries/save_data/save_instance.cpp
+                src/core/libraries/save_data/save_instance.h
+                src/core/libraries/save_data/save_memory.cpp
+                src/core/libraries/save_data/save_memory.h
                 src/core/libraries/save_data/savedata.cpp
                 src/core/libraries/save_data/savedata.h
-                src/core/libraries/system/savedatadialog.cpp
-                src/core/libraries/system/savedatadialog.h
+                src/core/libraries/save_data/dialog/savedatadialog.cpp
+                src/core/libraries/save_data/dialog/savedatadialog.h
+                src/core/libraries/save_data/dialog/savedatadialog_ui.cpp
+                src/core/libraries/save_data/dialog/savedatadialog_ui.h
                 src/core/libraries/system/sysmodule.cpp
                 src/core/libraries/system/sysmodule.h
                 src/core/libraries/system/systemservice.cpp
@@ -349,6 +356,7 @@ set(COMMON src/common/logging/backend.cpp
            src/common/concepts.h
            src/common/config.cpp
            src/common/config.h
+           src/common/cstring.h
            src/common/debug.h
            src/common/disassembler.cpp
            src/common/disassembler.h
@@ -571,6 +579,8 @@ set(VIDEO_CORE src/video_core/amdgpu/liverpool.cpp
                src/video_core/renderer_vulkan/vk_master_semaphore.h
                src/video_core/renderer_vulkan/vk_pipeline_cache.cpp
                src/video_core/renderer_vulkan/vk_pipeline_cache.h
+               src/video_core/renderer_vulkan/vk_pipeline_common.cpp
+               src/video_core/renderer_vulkan/vk_pipeline_common.h
                src/video_core/renderer_vulkan/vk_platform.cpp
                src/video_core/renderer_vulkan/vk_platform.h
                src/video_core/renderer_vulkan/vk_rasterizer.cpp
@@ -607,6 +617,7 @@ set(VIDEO_CORE src/video_core/amdgpu/liverpool.cpp
 set(IMGUI src/imgui/imgui_config.h
           src/imgui/imgui_layer.h
           src/imgui/imgui_std.h
+          src/imgui/imgui_texture.h
           src/imgui/layer/video_info.cpp
           src/imgui/layer/video_info.h
           src/imgui/renderer/imgui_core.cpp
@@ -615,6 +626,8 @@ set(IMGUI src/imgui/imgui_config.h
           src/imgui/renderer/imgui_impl_sdl3.h
           src/imgui/renderer/imgui_impl_vulkan.cpp
           src/imgui/renderer/imgui_impl_vulkan.h
+          src/imgui/renderer/texture_manager.cpp
+          src/imgui/renderer/texture_manager.h
 )
 
 set(INPUT src/input/controller.cpp

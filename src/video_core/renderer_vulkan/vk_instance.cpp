@@ -304,6 +304,7 @@ bool Instance::CreateDevice() {
             .shaderDrawParameters = true,
         },
         vk::PhysicalDeviceVulkan12Features{
+            .samplerMirrorClampToEdge = vk12_features.samplerMirrorClampToEdge,
             .shaderFloat16 = vk12_features.shaderFloat16,
             .scalarBlockLayout = vk12_features.scalarBlockLayout,
             .uniformBufferStandardLayout = vk12_features.uniformBufferStandardLayout,

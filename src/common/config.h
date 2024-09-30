@@ -13,6 +13,9 @@ void save(const std::filesystem::path& path);
 
 bool isNeoMode();
 bool isFullscreenMode();
+bool getPlayBGM();
+int getBGMvolume();
+
 std::string getLogFilter();
 std::string getLogType();
 std::string getUserName();
@@ -47,6 +50,8 @@ void setGpuId(s32 selectedGpuId);
 void setScreenWidth(u32 width);
 void setScreenHeight(u32 height);
 void setFullscreenMode(bool enable);
+void setPlayBGM(bool enable);
+void setBGMvolume(int volume);
 void setLanguage(u32 language);
 void setNeoMode(bool enable);
 void setUserName(const std::string& type);
@@ -70,7 +75,7 @@ bool vkCrashDiagnosticEnabled();
 
 // Gui
 void setMainWindowGeometry(u32 x, u32 y, u32 w, u32 h);
-void setGameInstallDir(const std::string& dir);
+void setGameInstallDir(const std::filesystem::path& dir);
 void setMainWindowTheme(u32 theme);
 void setIconSize(u32 size);
 void setIconSizeGrid(u32 size);
@@ -88,7 +93,7 @@ u32 getMainWindowGeometryX();
 u32 getMainWindowGeometryY();
 u32 getMainWindowGeometryW();
 u32 getMainWindowGeometryH();
-std::string getGameInstallDir();
+std::filesystem::path getGameInstallDir();
 u32 getMainWindowTheme();
 u32 getIconSize();
 u32 getIconSizeGrid();
